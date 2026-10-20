@@ -1,0 +1,14 @@
+# Исполняемые файлы
+dbms
+cpp/dbms
+*.exe
+*.o
+*.out
+
+# Тестовые данные
+data.txt
+cpp/data.txt
+*.data
+
+.vscode/
+go/dbms_go
