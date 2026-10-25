@@ -36,18 +36,18 @@ int toIndex(const string& s) {
 
 int wordsNeeded(const string& cmd) {
     if (cmd == "PRINT" || cmd == "MCREATE" || cmd == "MLEN" ||
-        cmd == "FPOPHEAD" || cmd == "FPOPTAIL" || cmd == "FGETHEAD" || cmd == "FGETTAIL" ||
-        cmd == "LPOPHEAD" || cmd == "LPOPTAIL" || cmd == "LGETHEAD" || cmd == "LGETTAIL" ||
+        cmd == "FDELHEAD" || cmd == "FDELTAIL" || cmd == "FGETHEAD" || cmd == "FGETTAIL" ||
+        cmd == "LDELHEAD" || cmd == "LDELTAIL" || cmd == "LGETHEAD" || cmd == "LGETTAIL" ||
         cmd == "SPOP" || cmd == "SPEEK" || cmd == "QPOP" || cmd == "QPEEK" ||
         cmd == "TCOMPLETE" || cmd == "TPRINT") {
         return 2;
     }
     if (cmd == "MPUSH" || cmd == "MGET" || cmd == "MDEL" ||
         cmd == "FPUSH" || cmd == "FPUSHHEAD" || cmd == "FPUSHTAIL" ||
-        cmd == "FPOP" || cmd == "FDELVAL" || cmd == "FDELBEFORE" || cmd == "FDELAFTER" ||
+        cmd == "FDEL" || cmd == "FDELVAL" || cmd == "FDELBEFORE" || cmd == "FDELAFTER" ||
         cmd == "FGET" || cmd == "FFIND" ||
         cmd == "LPUSH" || cmd == "LPUSHHEAD" || cmd == "LPUSHTAIL" ||
-        cmd == "LPOP" || cmd == "LDELVAL" || cmd == "LDELBEFORE" || cmd == "LDELAFTER" ||
+        cmd == "LDEL" || cmd == "LDELVAL" || cmd == "LDELBEFORE" || cmd == "LDELAFTER" ||
         cmd == "LGET" || cmd == "LFIND" ||
         cmd == "SPUSH" || cmd == "QPUSH" ||
         cmd == "TINSERT" || cmd == "TGET") {
@@ -147,10 +147,10 @@ bool doList(const string& cmd, const string& arg1, const string& arg2, string& d
     } else if (cmd == "FPUSHAFTER") {
         flist.insertAfter(arg1, arg2);
         changed = true;
-    } else if (cmd == "FPOPHEAD" || cmd == "FPOP") {
+    } else if (cmd == "FDELHEAD" || cmd == "FDEL") {
         cout << "-> " << flist.popFront() << endl;
         changed = true;
-    } else if (cmd == "FPOPTAIL") {
+    } else if (cmd == "FDELTAIL") {
         cout << "-> " << flist.popBack() << endl;
         changed = true;
     } else if (cmd == "FDELVAL") {
@@ -200,10 +200,10 @@ bool doDoublyList(const string& cmd, const string& arg1, const string& arg2, str
     } else if (cmd == "LPUSHAFTER") {
         dlist.insertAfter(arg1, arg2);
         changed = true;
-    } else if (cmd == "LPOPHEAD" || cmd == "LPOP") {
+    } else if (cmd == "LDELHEAD" || cmd == "LDEL") {
         cout << "-> " << dlist.popFront() << endl;
         changed = true;
-    } else if (cmd == "LPOPTAIL") {
+    } else if (cmd == "LDELTAIL") {
         cout << "-> " << dlist.popBack() << endl;
         changed = true;
     } else if (cmd == "LDELVAL") {
