@@ -123,16 +123,16 @@ void CompleteBinaryTree::print() {
 		cout << "tree is empty" << endl;
 		return;
 	}
-	TQueue q;
-	q.push(root);
-	while (q.empty() == false) {
-		TNode* cur = q.front();
-		q.pop();
-		cout << cur->value << " ";
-		if (cur->left) q.push(cur->left);
-		if (cur->right) q.push(cur->right);
-	}
-	cout << endl;
+	PrintTreeRec(root, 0);
+}
+void CompleteBinaryTree::PrintTreeRec(TNode* node, int level) {
+    if (node == nullptr) return;
+    PrintTreeRec(node->right, level + 1);
+    for (int i = 0; i < level; i++) {
+        cout << "    "; 
+    }
+    cout << node->value << endl;
+    PrintTreeRec(node->left, level + 1);
 }
 //размер
 int CompleteBinaryTree::getsize() {

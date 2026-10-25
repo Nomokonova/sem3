@@ -37,7 +37,8 @@ struct CompleteBinaryTree {
     bool isComplete();                                   
     bool search(const std::string& value);               
     bool searchRec(TNode* node, const std::string& value); 
-    void print();                                        
+    void print();  
+    void PrintTreeRec(TNode* node, int level);                                       
     int getsize();  
     
     std::string ToString();
