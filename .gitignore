@@ -12,3 +12,6 @@ cpp/data.txt
 
 .vscode/
 go/dbms_go
+data
+cpp/data
+go/data
