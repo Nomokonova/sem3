@@ -182,5 +182,11 @@ int main() {
             insertDouble(cache, num, roman);
         }
     }
+    cout << "\nТест удаления:" << endl;
+    HashTable* test = createTable(10);
+    insertLinear(test, 1, "one");
+    cout << "До удаления: " << search(test, 1, false) << endl;
+    remove(test, 1);
+    cout << "После удаления: " << search(test, 1, false) << endl;
     return 0;
 }
