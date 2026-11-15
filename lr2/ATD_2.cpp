@@ -2,7 +2,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
-#include "SList.h"
+#include "Set.h" 
 using namespace std;
 
 int main(int argc, char* argv[]) {
@@ -24,21 +24,20 @@ int main(int argc, char* argv[]) {
     ss >> cmd >> name;
     if (cmd != "SETPRINT" && cmd != "PRINT") ss >> val;
 
-    SinglyLinkedList list;
+    Set mySet; 
+
     ifstream fin(fileName);
     string word;
     while (fin >> word) {
-        if (list.findVal(word) == -1) {
-            list.pushBack(word);
-        }
+        mySet.add(word); // 
     }
     fin.close();
 
     bool changed = false;
 
     if (cmd == "SETADD") {
-        if (list.findVal(val) == -1) { 
-            list.pushBack(val); 
+        if (!mySet.incl(val)) { 
+            mySet.add(val); 
             cout << "-> " << val << endl;
             changed = true;
         } else {
@@ -46,8 +45,8 @@ int main(int argc, char* argv[]) {
         }
     } 
     else if (cmd == "SETDEL") {
-        if (list.findVal(val) != -1) {
-            list.deleteValue(val); 
+        if (mySet.incl(val)) {
+            mySet.del(val); 
             cout << "-> " << val << endl;
             changed = true;
         } else {
@@ -55,11 +54,11 @@ int main(int argc, char* argv[]) {
         }
     } 
     else if (cmd == "SET_AT") {
-        if (list.findVal(val) != -1) cout << "TRUE" << endl;
+        if (mySet.incl(val)) cout << "TRUE" << endl;
         else cout << "FALSE" << endl;
     } 
     else if (cmd == "SETPRINT" || cmd == "PRINT") {
-        list.print();
+        mySet.print();
     } 
     else {
         cout << "Error: unknown command" << endl;
@@ -67,7 +66,7 @@ int main(int argc, char* argv[]) {
 
     if (changed) {
         ofstream fout(fileName);
-        fout << list.ToString() << endl;
+        fout << mySet.ToString() << endl; 
         fout.close();
     }
 

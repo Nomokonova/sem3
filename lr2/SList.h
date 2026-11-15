@@ -31,5 +31,5 @@ struct SinglyLinkedList {
     void printReverse();
     void getHead();
     void getTail();
-    std::string ToString();
+    std::string ToString() const;
 };

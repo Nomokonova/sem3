@@ -227,7 +227,7 @@ void SinglyLinkedList::getTail() {
     cout << cur->value << endl;
 }
 
-string SinglyLinkedList::ToString() {
+string SinglyLinkedList::ToString() const{
     string res;
     SNode* cur = head;
     while (cur != nullptr) {

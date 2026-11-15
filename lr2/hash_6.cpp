@@ -88,6 +88,25 @@ string search(HashTable* ht, int key, bool isDouble) {
     }
     return ""; 
 }
+// Удаление элемента из таблицы
+bool remove(HashTable* ht, int key) {
+    int index = hashFunc(key) % ht->capacity;
+    int startIndex = index;
+
+    while (ht->table->getString(index) != "") {
+        string entry = ht->table->getString(index);
+        size_t pos = entry.find(':');
+        int existingKey = stoi(entry.substr(0, pos));
+        
+        if (existingKey == key) {
+            ht->table->set(index, "");
+            return true;
+        }
+        index = (index + 1) % ht->capacity;
+        if (index == startIndex) break;
+    }
+    return false;
+}
 string toRoman(int num, HashTable* romanTable) {
     int values[] = {1000, 900, 500, 400, 100, 90, 50, 40, 10, 9, 5, 4, 1};
     string result = "";
