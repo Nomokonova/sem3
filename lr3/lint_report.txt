@@ -1,0 +1,331 @@
+[1/9] Processing file /home/nomokonova/projectVScode/sem3/lr3/array.cpp.
+11604 warnings generated.
+[2/9] Processing file /home/nomokonova/projectVScode/sem3/lr3/SList.cpp.
+23224 warnings generated.
+[3/9] Processing file /home/nomokonova/projectVScode/sem3/lr3/DList.cpp.
+34842 warnings generated.
+[4/9] Processing file /home/nomokonova/projectVScode/sem3/lr3/Queue.cpp.
+46444 warnings generated.
+[5/9] Processing file /home/nomokonova/projectVScode/sem3/lr3/stack.cpp.
+58047 warnings generated.
+[6/9] Processing file /home/nomokonova/projectVScode/sem3/lr3/hash.cpp.
+69648 warnings generated.
+[7/9] Processing file /home/nomokonova/projectVScode/sem3/lr3/tree.cpp.
+81251 warnings generated.
+[8/9] Processing file /home/nomokonova/projectVScode/sem3/lr3/Serializer.cpp.
+96078 warnings generated.
+[9/9] Processing file /home/nomokonova/projectVScode/sem3/lr3/StructureCodec.cpp.
+108893 warnings generated.
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:4:30: warning: 2 adjacent parameters of 'DNode' of similar type ('DNode *') are easily swapped by mistake [bugprone-easily-swappable-parameters]
+    4 | DNode::DNode(const string& v,DNode* p,DNode* n):value(v),prev(p),next(n){ }
+      |                              ^~~~~~~~~~~~~~~~~
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:4:37: note: the first parameter in the range is 'p'
+    4 | DNode::DNode(const string& v,DNode* p,DNode* n):value(v),prev(p),next(n){ }
+      |                                     ^
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:4:46: note: the last parameter in the range is 'n'
+    4 | DNode::DNode(const string& v,DNode* p,DNode* n):value(v),prev(p),next(n){ }
+      |                                              ^
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:19:37: warning: 2 adjacent parameters of 'insertBefore' of similar type ('const string &') are easily swapped by mistake [bugprone-easily-swappable-parameters]
+   19 | void DoublyLinkedList::insertBefore(const string& base, const string& value) {
+      |                                     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:19:51: note: the first parameter in the range is 'base'
+   19 | void DoublyLinkedList::insertBefore(const string& base, const string& value) {
+      |                                                   ^~~~
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:19:71: note: the last parameter in the range is 'value'
+   19 | void DoublyLinkedList::insertBefore(const string& base, const string& value) {
+      |                                                                       ^~~~~
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:24:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   24 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:35:36: warning: 2 adjacent parameters of 'insertAfter' of similar type ('const string &') are easily swapped by mistake [bugprone-easily-swappable-parameters]
+   35 | void DoublyLinkedList::insertAfter(const string& base, const string& value) {
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:35:50: note: the first parameter in the range is 'base'
+   35 | void DoublyLinkedList::insertAfter(const string& base, const string& value) {
+      |                                                  ^~~~
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:35:70: note: the last parameter in the range is 'value'
+   35 | void DoublyLinkedList::insertAfter(const string& base, const string& value) {
+      |                                                                      ^~~~~
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:40:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   40 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:76:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   76 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:93:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   93 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:108:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  108 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:123:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  123 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:141:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  141 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:169:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  169 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:175:32: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  175 |             cout << "error" << endl;
+      |                                ^~~~
+      |                                '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:181:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  181 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:184:27: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  184 |     cout << cur->value << endl;
+      |                           ^~~~
+      |                           '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:189:36: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  189 |         cout << "list is empty" << endl;
+      |                                    ^~~~
+      |                                    '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:192:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  192 |     cout << head->value << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:197:36: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  197 |         cout << "list is empty" << endl;
+      |                                    ^~~~
+      |                                    '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:200:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  200 |     cout << tail->value << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:206:13: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  206 |     cout << endl;
+      |             ^~~~
+      |             '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.cpp:212:13: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  212 |     cout << endl;
+      |             ^~~~
+      |             '\n'
+/home/nomokonova/projectVScode/sem3/lr3/DList.h:12:7: warning: class 'DoublyLinkedList' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   12 | class DoublyLinkedList {
+      |       ^
+/home/nomokonova/projectVScode/sem3/lr3/DList.h:12:7: warning: class 'DoublyLinkedList' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+/home/nomokonova/projectVScode/sem3/lr3/Queue.cpp:37:22: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   37 |                 cout << "error" << endl;
+      |                                    ^~~~
+      |                                    '\n'
+/home/nomokonova/projectVScode/sem3/lr3/Queue.cpp:65:31: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   65 |                 cout << "queue is empty" << endl;
+      |                                             ^~~~
+      |                                             '\n'
+/home/nomokonova/projectVScode/sem3/lr3/Queue.cpp:73:10: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   73 |         cout << endl;
+      |                 ^~~~
+      |                 '\n'
+/home/nomokonova/projectVScode/sem3/lr3/Queue.h:12:7: warning: class 'Queue' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   12 | class Queue {
+      |       ^
+/home/nomokonova/projectVScode/sem3/lr3/Queue.h:12:7: warning: class 'Queue' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:32:38: warning: 2 adjacent parameters of 'insertBefore' of similar type ('const string &') are easily swapped by mistake [bugprone-easily-swappable-parameters]
+   32 | void SinglyLinkedList:: insertBefore(const string& base, const string& value) {
+      |                                      ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:32:52: note: the first parameter in the range is 'base'
+   32 | void SinglyLinkedList:: insertBefore(const string& base, const string& value) {
+      |                                                    ^~~~
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:32:72: note: the last parameter in the range is 'value'
+   32 | void SinglyLinkedList:: insertBefore(const string& base, const string& value) {
+      |                                                                        ^~~~~
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:34:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   34 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:46:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   46 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:54:36: warning: 2 adjacent parameters of 'insertAfter' of similar type ('const string &') are easily swapped by mistake [bugprone-easily-swappable-parameters]
+   54 | void SinglyLinkedList::insertAfter(const string& base, const string& value) {
+      |                                    ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:54:50: note: the first parameter in the range is 'base'
+   54 | void SinglyLinkedList::insertAfter(const string& base, const string& value) {
+      |                                                  ^~~~
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:54:70: note: the last parameter in the range is 'value'
+   54 | void SinglyLinkedList::insertAfter(const string& base, const string& value) {
+      |                                                                      ^~~~~
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:60:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   60 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:71:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   71 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:83:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   83 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:104:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  104 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:115:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  115 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:131:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  131 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:143:29: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  143 |         cout << "Error!" << endl;
+      |                             ^~~~
+      |                             '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:152:29: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  152 |         cout << "Error!" << endl;
+      |                             ^~~~
+      |                             '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:176:29: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  176 |         cout << "Error!" << endl;
+      |                             ^~~~
+      |                             '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:182:33: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  182 |             cout << "Error!" << endl;
+      |                                 ^~~~
+      |                                 '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:188:29: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  188 |         cout << "Error!" << endl;
+      |                             ^~~~
+      |                             '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:191:27: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  191 |     cout << cur->value << endl;
+      |                           ^~~~
+      |                           '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:197:13: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  197 |     cout << endl;
+      |             ^~~~
+      |             '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:207:13: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  207 |     cout << endl;
+      |             ^~~~
+      |             '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:212:36: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  212 |         cout << "list is empty" << endl;
+      |                                    ^~~~
+      |                                    '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:215:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  215 |     cout << head->value << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:220:36: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  220 |         cout << "list is empty" << endl;
+      |                                    ^~~~
+      |                                    '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.cpp:227:27: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  227 |     cout << cur->value << endl;
+      |                           ^~~~
+      |                           '\n'
+/home/nomokonova/projectVScode/sem3/lr3/SList.h:11:7: warning: class 'SinglyLinkedList' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   11 | class SinglyLinkedList {
+      |       ^
+/home/nomokonova/projectVScode/sem3/lr3/SList.h:11:7: warning: class 'SinglyLinkedList' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+/home/nomokonova/projectVScode/sem3/lr3/array.cpp:24:26: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   24 |         cout<< "Error"<< endl;
+      |                          ^~~~
+      |                          '\n'
+/home/nomokonova/projectVScode/sem3/lr3/array.cpp:43:27: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   43 |         cout<< "error" << endl;
+      |                           ^~~~
+      |                           '\n'
+/home/nomokonova/projectVScode/sem3/lr3/array.cpp:46:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   46 |     cout << data[index] << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/array.cpp:51:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   51 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/array.cpp:64:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   64 |         cout << "error" << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/array.cpp:78:13: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   78 |     cout << endl;
+      |             ^~~~
+      |             '\n'
+/home/nomokonova/projectVScode/sem3/lr3/array.h:5:7: warning: class 'Array' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+    5 | class Array {
+      |       ^
+/home/nomokonova/projectVScode/sem3/lr3/array.h:5:7: warning: class 'Array' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+/home/nomokonova/projectVScode/sem3/lr3/hash.cpp:55:65: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   55 |             cout << "[" << i << "]: " << table->getString(i) << endl;
+      |                                                                 ^~~~
+      |                                                                 '\n'
+/home/nomokonova/projectVScode/sem3/lr3/hash.h:6:7: warning: class 'HashTable' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+    6 | class HashTable {
+      |       ^
+/home/nomokonova/projectVScode/sem3/lr3/hash.h:6:7: warning: class 'HashTable' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+/home/nomokonova/projectVScode/sem3/lr3/stack.cpp:22:22: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   22 |                 cout << "error" << endl;
+      |                                    ^~~~
+      |                                    '\n'
+/home/nomokonova/projectVScode/sem3/lr3/stack.cpp:40:31: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   40 |                 cout << "stack is empty" << endl;
+      |                                             ^~~~
+      |                                             '\n'
+/home/nomokonova/projectVScode/sem3/lr3/stack.cpp:48:10: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   48 |         cout << endl;
+      |                 ^~~~
+      |                 '\n'
+/home/nomokonova/projectVScode/sem3/lr3/stack.cpp:65:20: warning: string concatenation results in allocation of unnecessary temporary strings; consider using 'operator+=' or 'string::append()' instead [performance-inefficient-string-concatenation]
+   65 |                 if(!res.empty()) res = " " + res;
+      |                                  ^
+/home/nomokonova/projectVScode/sem3/lr3/stack.cpp:66:3: warning: string concatenation results in allocation of unnecessary temporary strings; consider using 'operator+=' or 'string::append()' instead [performance-inefficient-string-concatenation]
+   66 |                 res = cur->value + res;
+      |                 ^
+/home/nomokonova/projectVScode/sem3/lr3/stack.h:11:7: warning: class 'Stack' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   11 | class Stack {
+      |       ^
+/home/nomokonova/projectVScode/sem3/lr3/stack.h:11:7: warning: class 'Stack' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+/home/nomokonova/projectVScode/sem3/lr3/tree.cpp:52:1: warning: Potential leak of memory pointed to by 'node' [clang-analyzer-cplusplus.NewDeleteLeaks]
+   52 | }
+      | ^
+/home/nomokonova/projectVScode/sem3/lr3/tree.cpp:22:19: note: Memory is allocated
+   22 |     TNode* node = new TNode(value);
+      |                   ^~~~~~~~~~~~~~~~
+/home/nomokonova/projectVScode/sem3/lr3/tree.cpp:23:9: note: Assuming the condition is false
+   23 |     if (root == nullptr) {
+      |         ^~~~~~~~~~~~~~~
+/home/nomokonova/projectVScode/sem3/lr3/tree.cpp:23:5: note: Taking false branch
+   23 |     if (root == nullptr) {
+      |     ^
+/home/nomokonova/projectVScode/sem3/lr3/tree.cpp:32:12: note: Assuming the condition is false
+   32 |     while (q.Qsize() > 0) {
+      |            ^~~~~~~~~~~~~
+/home/nomokonova/projectVScode/sem3/lr3/tree.cpp:32:5: note: Loop condition is false. Execution continues on line 21
+   32 |     while (q.Qsize() > 0) {
+      |     ^
+/home/nomokonova/projectVScode/sem3/lr3/tree.cpp:52:1: note: Potential leak of memory pointed to by 'node'
+   52 | }
+      | ^
+/home/nomokonova/projectVScode/sem3/lr3/tree.cpp:94:36: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+   94 |         cout << "tree is empty" << endl;
+      |                                    ^~~~
+      |                                    '\n'
+/home/nomokonova/projectVScode/sem3/lr3/tree.cpp:104:28: warning: do not use 'endl' with streams; use '\n' instead [performance-avoid-endl]
+  104 |     cout << node->value << endl;
+      |                            ^~~~
+      |                            '\n'
+/home/nomokonova/projectVScode/sem3/lr3/tree.cpp:109:12: warning: narrowing conversion from 'size_t' (aka 'unsigned long') to signed type 'int' is implementation-defined [bugprone-narrowing-conversions]
+  109 |     return size;
+      |            ^
+/home/nomokonova/projectVScode/sem3/lr3/tree.h:12:7: warning: class 'CompleteBinaryTree' defines a destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+   12 | class CompleteBinaryTree {
+      |       ^
+/home/nomokonova/projectVScode/sem3/lr3/tree.h:12:7: warning: class 'CompleteBinaryTree' defines a non-default destructor but does not define a copy constructor, a copy assignment operator, a move constructor or a move assignment operator [cppcoreguidelines-special-member-functions]
+Suppressed 108815 warnings (108815 in non-user code).
+Use -header-filter=.* to display errors from all non-system headers. Use -system-headers to display errors from system headers as well.

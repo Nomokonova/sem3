@@ -1,0 +1,7 @@
+coverage.out
+coverage.html
+coverage_*.html
+report_*/
+benchmark.txt
+*.bin
+*.txt
