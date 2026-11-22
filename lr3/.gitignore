@@ -1,24 +1,3 @@
-# Бинарники
-*.o
-*.obj
-*.exe
-*.out
-*.a
-*.so
-*.dylib
-benchmark
-test_boost
-test_catch
-test_gtest
-
-# Coverage
-coverage/
-*.gcda
-*.gcno
-*.gcov
-coverage.*.html
-coverage.css
-
 # Бинарные и исполняемые файлы
 *.o
 *.obj
@@ -44,6 +23,13 @@ report_*/
 *.info
 coverage*.html
 coverage.css
+coverage.html
+coverage.functions.html
+
+# Отчёты тестов
+report_boost/
+report_catch2/
+report_gtest/
 
 # IDE
 .vscode/
@@ -62,32 +48,7 @@ bin/
 *.tmp
 .DS_Store
 Thumbs.db
-coverage.html
-coverage.functions.html
 
-# Отчёты тестов
-report_boost/
-report_catch2/
-report_gtest/
-
-# IDE
-.vscode/
-.idea/
-*.user
-*.suo
-
-# Build
-build/
-cmake-build-*/
-out/
-bin/
-
-# Временные
-*.log
-*.tmp
-.DS_Store
-Thumbs.db
-
-
+# Прочее
 commands.txt
 serialization_output/

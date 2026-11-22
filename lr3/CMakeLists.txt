@@ -24,15 +24,6 @@ target_include_directories(lr3_structures PUBLIC
     ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
-# Обычные тесты сериализации
-add_executable(serialization_tests
-    SerializationTests.cpp
-)
-
-target_link_libraries(serialization_tests PRIVATE
-    lr3_structures
-)
-
 # Тесты сериализации на Catch2
 find_package(Catch2 3 REQUIRED)
 
@@ -48,11 +39,6 @@ target_link_libraries(serialization_catch_tests PRIVATE
 enable_testing()
 
 add_test(
-    NAME serialization
-    COMMAND serialization_tests
-)
-
-add_test(
     NAME serialization_catch
     COMMAND serialization_catch_tests
 )
@@ -64,10 +50,20 @@ if(CLANG_TIDY_PROGRAM)
     add_custom_target(lint
         COMMAND ${CLANG_TIDY_PROGRAM}
             -p ${CMAKE_BINARY_DIR}
+            ${CMAKE_CURRENT_SOURCE_DIR}/array.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/SList.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/DList.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/Queue.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/stack.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/hash.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/tree.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/Serializer.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/StructureCodec.cpp
-            ${CMAKE_CURRENT_SOURCE_DIR}/SerializationTests.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/GoogleTest.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/BoostTest.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/CatchTest.cpp
             ${CMAKE_CURRENT_SOURCE_DIR}/SerializationCatchTests.cpp
+            ${CMAKE_CURRENT_SOURCE_DIR}/benchmark.cpp
         WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
         VERBATIM
     )

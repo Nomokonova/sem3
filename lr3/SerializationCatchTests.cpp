@@ -52,6 +52,9 @@ TEST_CASE("Array serialization", "[serialization]") {
     array.pushBack("hello world");
     array.pushBack("");
     array.pushBack("Привет");
+    array.pushBack("a:b");
+    array.pushBack("line1\nline2");
+    array.pushBack("\"quoted\"");
 
     testSerialization(array, "array");
 }
