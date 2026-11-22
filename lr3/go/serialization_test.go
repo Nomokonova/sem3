@@ -1,9 +1,11 @@
 package main
 
 import (
+	"encoding/binary"
 	"os"
 	"path/filepath"
 	"reflect"
+	"strings"
 	"testing"
 )
 
@@ -272,3 +274,139 @@ func BenchmarkTextSerialization(b *testing.B) {
 }
 
 var benchmarkSize int
+
+// Дополнительные проверки сериализации и обработки некорректных файлов.
+
+func TestSerializerBinaryInvalidInput(t *testing.T) {
+	cases := []struct {
+		name string
+		data []byte
+	}{
+		{"empty", nil},
+		{"incomplete_count", []byte{1, 0}},
+		{"too_many_items", []byte{0x41, 0x42, 0x0f, 0x00}}, // 1000001
+		{"missing_string_length", []byte{1, 0, 0, 0}},
+		{"incomplete_string_length", []byte{1, 0, 0, 0, 2, 0}},
+		{"too_long_string", []byte{1, 0, 0, 0, 0x41, 0x42, 0x0f, 0x00}},
+		{"truncated_string", []byte{1, 0, 0, 0, 4, 0, 0, 0, 'A'}},
+		{"extra_bytes", []byte{0, 0, 0, 0, 'X'}},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			path := filepath.Join(t.TempDir(), "invalid.bin")
+			if err := os.WriteFile(path, tc.data, 0600); err != nil {
+				t.Fatal(err)
+			}
+			if _, err := LoadBinary(path); err == nil {
+				t.Fatal("expected error")
+			}
+		})
+	}
+}
+
+func TestSerializerTextInvalidInput(t *testing.T) {
+	cases := []struct{ name, data string }{
+		{"empty", ""},
+		{"bad_count", "nope\n"},
+		{"too_many_items", "1000001\n"},
+		{"missing_string", "1\n"},
+		{"bad_quote", "1\nwrong\n"},
+		{"unfinished_quote", "1\n\"hello"},
+		{"extra_text", "0\nextra"},
+		{"long_string", "1\n\"" + strings.Repeat("x", maxString+1) + "\"\n"},
+	}
+	for _, tc := range cases {
+		t.Run(tc.name, func(t *testing.T) {
+			path := filepath.Join(t.TempDir(), "invalid.txt")
+			if err := os.WriteFile(path, []byte(tc.data), 0600); err != nil {
+				t.Fatal(err)
+			}
+			if _, err := LoadText(path); err == nil {
+				t.Fatal("expected error")
+			}
+		})
+	}
+}
+
+func TestSerializerOversizedAndInvalidDestinations(t *testing.T) {
+	tooMany := make([]string, maxItems+1)
+	tooLong := []string{strings.Repeat("x", maxString+1)}
+	for _, tc := range []struct {
+		name   string
+		values []string
+	}{
+		{"too_many", tooMany},
+		{"string_too_long", tooLong},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			if err := SaveBinary(tc.values, filepath.Join(t.TempDir(), "data.bin")); err == nil {
+				t.Fatal("binary must reject oversized input")
+			}
+			if err := SaveText(tc.values, filepath.Join(t.TempDir(), "data.txt")); err == nil {
+				t.Fatal("text must reject oversized input")
+			}
+		})
+	}
+	path := filepath.Join(t.TempDir(), "no_such_folder", "file")
+	if err := SaveBinary([]string{"ok"}, path); err == nil {
+		t.Fatal("expected binary open error")
+	}
+	if err := SaveText([]string{"ok"}, path); err == nil {
+		t.Fatal("expected text open error")
+	}
+}
+
+func TestSerializerSpecialStrings(t *testing.T) {
+	values := []string{"", "spaces and words", "quoted: \"hi\"", `C:\\Temp\\file`, "строка\nновая", "é"}
+	for _, tc := range []struct {
+		name string
+		save func([]string, string) error
+		load func(string) ([]string, error)
+	}{
+		{"binary", SaveBinary, LoadBinary},
+		{"text", SaveText, LoadText},
+	} {
+		t.Run(tc.name, func(t *testing.T) {
+			path := filepath.Join(t.TempDir(), "data")
+			if err := tc.save(values, path); err != nil {
+				t.Fatal(err)
+			}
+			got, err := tc.load(path)
+			if err != nil {
+				t.Fatal(err)
+			}
+			if !reflect.DeepEqual(got, values) {
+				t.Fatalf("got %#v, want %#v", got, values)
+			}
+		})
+	}
+}
+
+func TestSerializerTextWhitespaceAndEscape(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "quoted.txt")
+	input := "1\n  \"a\\\"b\\\\c\" \n\t"
+	if err := os.WriteFile(path, []byte(input), 0600); err != nil {
+		t.Fatal(err)
+	}
+	got, err := LoadText(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(got, []string{"a\"b\\c"}) {
+		t.Fatalf("unexpected %q", got)
+	}
+}
+
+func TestSerializerBinaryLittleEndian(t *testing.T) {
+	path := filepath.Join(t.TempDir(), "le.bin")
+	if err := SaveBinary([]string{"a"}, path); err != nil {
+		t.Fatal(err)
+	}
+	b, err := os.ReadFile(path)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if len(b) != 9 || binary.LittleEndian.Uint32(b[:4]) != 1 || binary.LittleEndian.Uint32(b[4:8]) != 1 || b[8] != 'a' {
+		t.Fatalf("unexpected binary bytes: %v", b)
+	}
+}
