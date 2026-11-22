@@ -11,6 +11,7 @@ struct DNode {
 
 class DoublyLinkedList {
 private:
+    friend class StructureCodec;
     DNode* head;
     DNode* tail;
 public:

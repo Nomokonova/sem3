@@ -11,6 +11,7 @@ struct TNode {
 
 class CompleteBinaryTree {
 private:
+    friend class StructureCodec;
     size_t size;
     TNode* root;
 

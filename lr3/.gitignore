@@ -12,11 +12,56 @@ test_catch
 test_gtest
 
 # Coverage
+coverage/
 *.gcda
 *.gcno
 *.gcov
 coverage.*.html
 coverage.css
+
+# Бинарные и исполняемые файлы
+*.o
+*.obj
+*.exe
+*.out
+*.a
+*.so
+*.dylib
+benchmark
+test_boost
+test_catch
+test_gtest
+test_google
+test_serialization
+
+# Покрытие тестами
+coverage/
+coverage_html/
+report_*/
+*.gcda
+*.gcno
+*.gcov
+*.info
+coverage*.html
+coverage.css
+
+# IDE
+.vscode/
+.idea/
+*.user
+*.suo
+
+# Сборка
+build/
+cmake-build-*/
+out/
+bin/
+
+# Временные файлы
+*.log
+*.tmp
+.DS_Store
+Thumbs.db
 coverage.html
 coverage.functions.html
 
@@ -42,3 +87,7 @@ bin/
 *.tmp
 .DS_Store
 Thumbs.db
+
+
+commands.txt
+serialization_output/

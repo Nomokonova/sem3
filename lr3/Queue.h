@@ -11,6 +11,7 @@ struct QNode {
 template <typename T>
 class Queue {
 private:
+    friend class StructureCodec;
     QNode<T>* head;
     QNode<T>* tail;
 public:

@@ -10,6 +10,7 @@ struct SNode {
 
 class SinglyLinkedList {
 private:
+    friend class StructureCodec;
     SNode* head = nullptr;
 public:
     SinglyLinkedList();

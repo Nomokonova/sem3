@@ -4,6 +4,7 @@
 
 class Array {
 private:
+    friend class StructureCodec;
     std::string* data;
     int capacity;
     int size;

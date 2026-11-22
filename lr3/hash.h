@@ -5,6 +5,8 @@
 
 class HashTable {
 private:
+    friend class StructureCodec;
+    
     Array* table; 
     int capacity; 
 

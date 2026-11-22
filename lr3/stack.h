@@ -10,6 +10,7 @@ struct StackNode {
 
 class Stack {
 private:
+    friend class StructureCodec;
     StackNode* top;
 public:
     Stack();

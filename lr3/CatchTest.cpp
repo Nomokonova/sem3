@@ -7,6 +7,8 @@
 #include "Queue.h"
 #include "hash.h"
 #include "tree.h"
+#include "StructureCodec.h"
+
 
 //тесты для массива
 TEST_CASE("Array operations", "[array]") {
