@@ -80,3 +80,37 @@ func (h *HashTable) ToString() string {
 	}
 	return strings.Join(s, " ")
 }
+
+func (h *HashTable) Remove(key int) bool {
+	index := h.hashFunc(key)
+
+	for steps := 0; steps < h.capacity; steps++ {
+		entry := h.table[index]
+		if entry == "" {
+			return false
+		}
+		k, _, ok := strings.Cut(entry, ":")
+		if !ok {
+			return false
+		}
+		existingKey, err := strconv.Atoi(k)
+		if err != nil {
+			return false
+		}
+		if existingKey == key {
+			h.table[index] = ""
+			next := (index + 1) % h.capacity
+			for h.table[next] != "" {
+				displaced := h.table[next]
+				h.table[next] = ""
+				k, value, _ := strings.Cut(displaced, ":")
+				displacedKey, _ := strconv.Atoi(k)
+				h.Insert(displacedKey, value)
+				next = (next + 1) % h.capacity
+			}
+			return true
+		}
+		index = (index + 1) % h.capacity
+	}
+	return false
+}

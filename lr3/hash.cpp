@@ -66,3 +66,33 @@ string HashTable::ToString() const {
     }
     return res;
 }
+
+
+bool HashTable::remove(int key) {
+    int index = hashFunc(key);
+    int startIndex = index;
+    while (table->getString(index) != "") {
+        string entry = table->getString(index);
+        size_t pos = entry.find(':');
+        int existingKey = stoi(entry.substr(0, pos));
+        if (existingKey == key) {
+            table->set(index, "");
+            int next = (index + 1) % capacity;
+            while (table->getString(next) != "") {
+                string displaced = table->getString(next);
+                table->set(next, "");
+                size_t delimiter = displaced.find(':');
+                int displacedKey = stoi(displaced.substr(0, delimiter));
+                string displacedValue = displaced.substr(delimiter + 1);
+                insert(displacedKey, displacedValue);
+                next = (next + 1) % capacity;
+            }
+            return true;
+        }
+        index = (index + 1) % capacity;
+        if (index == startIndex) {
+            break;
+        }
+    }
+    return false;
+}

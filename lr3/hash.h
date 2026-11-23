@@ -20,4 +20,5 @@ public:
     std::string search(int key) const;
     void print() const;
     std::string ToString() const;
+    bool remove(int key);
 };

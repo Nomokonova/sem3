@@ -209,3 +209,93 @@ func TestHashTreeExtra(t *testing.T) {
 		t.Fatal("broken tree considered complete")
 	}
 }
+func TestHashTableRemove(t *testing.T) {
+	t.Run("Remove existing key", func(t *testing.T) {
+		ht := NewHashTable(5)
+
+		ht.Insert(1, "A")
+		ht.Insert(2, "B")
+
+		if !ht.Remove(1) {
+			t.Fatal("Failed to remove existing key")
+		}
+
+		if ht.Search(1) != "" {
+			t.Fatal("Deleted key still exists")
+		}
+
+		if ht.Search(2) != "B" {
+			t.Fatal("Other key was affected")
+		}
+	})
+
+	t.Run("Remove with collisions", func(t *testing.T) {
+		ht := NewHashTable(5)
+
+		ht.Insert(1, "A")
+		ht.Insert(6, "B")
+		ht.Insert(11, "C")
+
+		if !ht.Remove(1) {
+			t.Fatal("Failed to remove key")
+		}
+
+		if ht.Search(6) != "B" {
+			t.Fatal("Key 6 lost after removal")
+		}
+
+		if ht.Search(11) != "C" {
+			t.Fatal("Key 11 lost after removal")
+		}
+
+		if !ht.Remove(6) {
+			t.Fatal("Failed to remove key 6")
+		}
+	})
+
+	t.Run("Remove missing key", func(t *testing.T) {
+		ht := NewHashTable(5)
+
+		ht.Insert(1, "A")
+
+		if ht.Remove(99) {
+			t.Fatal("Removed nonexistent key")
+		}
+
+		if !ht.Remove(1) {
+			t.Fatal("Failed to remove key")
+		}
+
+		if ht.Remove(1) {
+			t.Fatal("Removed the same key twice")
+		}
+	})
+
+	t.Run("Remove from full table", func(t *testing.T) {
+		ht := NewHashTable(3)
+
+		ht.Insert(0, "A")
+		ht.Insert(3, "B")
+		ht.Insert(6, "C")
+
+		if ht.Remove(99) {
+			t.Fatal("Removed missing key from full table")
+		}
+
+		if !ht.Remove(0) {
+			t.Fatal("Failed to remove existing key")
+		}
+
+		if ht.Search(3) != "B" || ht.Search(6) != "C" {
+			t.Fatal("Collision chain broken")
+		}
+	})
+
+	t.Run("Remove from empty table", func(t *testing.T) {
+		ht := NewHashTable(5)
+
+		if ht.Remove(1) {
+			t.Fatal("Removed key from empty table")
+		}
+	})
+}

@@ -11,7 +11,7 @@ namespace {
     constexpr uint32_t MAX_ITEMS = 1000000;
     constexpr uint32_t MAX_STRING = 1000000;
 
-    // Запись и чтение uint32 в Little Endian
+    // Запись и чтение uint32
     void writeU32(ostream& file, uint32_t value) {
         for (int i = 0; i < 4; ++i) {
             file.put(static_cast<char>((value >> (8 * i)) & 255));

@@ -104,6 +104,25 @@ TEST(SListTest, ToStringCheck) {
     list.pushBack("banana");
     EXPECT_EQ(list.ToString(), "apple banana");
 }
+TEST(SListTest, PopBackEl) {
+    SinglyLinkedList list;
+
+    list.pushBack("A");
+    list.pushBack("B");
+    list.pushBack("C");
+    list.pushBack("D");
+
+    EXPECT_EQ(list.popBack(), "D");
+    EXPECT_EQ(list.findVal("D"), -1);
+
+    EXPECT_EQ(list.popBack(), "C");
+    EXPECT_EQ(list.findVal("C"), -1);
+
+    EXPECT_EQ(list.popBack(), "B");
+    EXPECT_EQ(list.popBack(), "A");
+
+    EXPECT_EQ(list.popBack(), "");
+}
 TEST(SListTest, EdgeCasesAndErrors) {
     SinglyLinkedList sList;
     sList.print();           
@@ -120,6 +139,7 @@ TEST(SListTest, EdgeCasesAndErrors) {
     sList.insertAfter("Z", "A");  
     sList.getVal(10);  
 }
+
 //------------тесты для двусвязного списка 
 TEST(DListTest, InsertBeforeAfter){
     DoublyLinkedList list;
@@ -222,6 +242,19 @@ TEST(Queue, ToStringCheck){
     q.push("B");
     EXPECT_EQ(q.ToString(),"A B");
 }
+TEST(Queue, PrintNonEmpty) {
+    Queue<std::string> q;
+
+    q.push("A");
+    q.push("B");
+    q.push("C");
+
+    q.print();
+
+    EXPECT_EQ(q.Qsize(), 3);
+    EXPECT_EQ(q.peek(), "A");
+    EXPECT_EQ(q.back(), "C");
+}
 TEST(Queue, EdgeCasesAndErrors) {
     Queue<std::string> q;
     q.pop();                 
@@ -245,6 +278,13 @@ TEST(TreeTest, IsComplete) {
     tree.insert("2");
     tree.insert("3"); 
     EXPECT_TRUE(tree.isComplete());
+}
+TEST(TreeTest, print) {
+    CompleteBinaryTree tree;
+    tree.insert("1");
+    tree.insert("2");
+    tree.insert("3"); 
+    tree.print();
 }
 TEST(TreeTest, ToStringCheck) {
     CompleteBinaryTree tree;
@@ -285,7 +325,239 @@ TEST(HashTableTest, EdgeCasesAndErrors) {
     EXPECT_EQ(ht.search(999), "");          
     ht.print();              
 }
+// ---------- ХЕШ-ТАБЛИЦА: УДАЛЕНИЕ ----------
 
+TEST(HashTableTest, RemoveWithCollisions) {
+    HashTable ht(5);
+
+    ht.insert(1, "A");
+    ht.insert(6, "B");
+    ht.insert(11, "C");
+
+    // Удаление начала цепочки коллизий
+    EXPECT_TRUE(ht.remove(1));
+    EXPECT_EQ(ht.search(1), "");
+
+    // Остальные элементы должны остаться доступными
+    EXPECT_EQ(ht.search(6), "B");
+    EXPECT_EQ(ht.search(11), "C");
+
+    // Удаление следующего элемента
+    EXPECT_TRUE(ht.remove(6));
+    EXPECT_EQ(ht.search(11), "C");
+
+    // Несуществующий ключ
+    EXPECT_FALSE(ht.remove(99));
+    EXPECT_FALSE(ht.remove(1));
+
+    // Удаление последнего элемента
+    EXPECT_TRUE(ht.remove(11));
+    EXPECT_EQ(ht.ToString(), "");
+
+    // Повторная вставка после удаления
+    EXPECT_GE(ht.insert(16, "D"), 0);
+    EXPECT_EQ(ht.search(16), "D");
+}
+
+TEST(HashTableTest, RemoveFromFullTable) {
+    HashTable ht(5);
+
+    ht.insert(4, "A");
+    ht.insert(9, "B");
+    ht.insert(14, "C");
+    ht.insert(19, "D");
+    ht.insert(24, "E");
+
+    // Таблица заполнена, цепочка переходит через индекс 0
+    EXPECT_TRUE(ht.remove(4));
+
+    EXPECT_EQ(ht.search(9), "B");
+    EXPECT_EQ(ht.search(14), "C");
+    EXPECT_EQ(ht.search(19), "D");
+    EXPECT_EQ(ht.search(24), "E");
+
+    // Значение с двоеточием
+    EXPECT_GE(ht.insert(29, "hello:world"), 0);
+    EXPECT_EQ(ht.search(29), "hello:world");
+    EXPECT_TRUE(ht.remove(29));
+}
+
+
+// ---------- ОДНОСВЯЗНЫЙ СПИСОК ----------
+
+TEST(SListTest, DeleteValueAllCases) {
+    SinglyLinkedList empty;
+    EXPECT_EQ(empty.deleteValue("X"), "");
+
+    SinglyLinkedList list;
+    list.pushBack("A");
+    list.pushBack("B");
+    list.pushBack("C");
+    list.pushBack("D");
+
+    // Удаление первого элемента
+    EXPECT_EQ(list.deleteValue("A"), "A");
+    EXPECT_EQ(list.ToString(), "B C D");
+
+    // Удаление последнего элемента
+    // Цикл поиска должен пройти несколько узлов
+    EXPECT_EQ(list.deleteValue("D"), "D");
+    EXPECT_EQ(list.ToString(), "B C");
+
+    // Отсутствующее значение
+    EXPECT_EQ(list.deleteValue("Z"), "");
+
+    // Удаление первого из оставшихся
+    EXPECT_EQ(list.deleteValue("B"), "B");
+    EXPECT_EQ(list.deleteValue("C"), "C");
+
+    EXPECT_EQ(list.ToString(), "");
+}
+
+TEST(SListTest, DeleteBeforeAfterExtra) {
+    SinglyLinkedList list;
+
+    list.pushBack("A");
+    list.pushBack("B");
+    list.pushBack("C");
+    list.pushBack("D");
+
+    EXPECT_EQ(list.deleteBefore("A"), "");
+    EXPECT_EQ(list.deleteBefore("B"), "A");
+    EXPECT_EQ(list.deleteBefore("D"), "C");
+
+    EXPECT_EQ(list.ToString(), "B D");
+
+    EXPECT_EQ(list.deleteAfter("B"), "D");
+    EXPECT_EQ(list.deleteAfter("B"), "");
+
+    list.insertBefore("B", "A");
+    list.insertAfter("B", "C");
+
+    EXPECT_EQ(list.ToString(), "A B C");
+
+    list.getVal(2);
+    list.getVal(10);
+    list.printReverse();
+}
+
+TEST(SListTest, PopBackAllCases) {
+    SinglyLinkedList list;
+
+    list.pushBack("A");
+    list.pushBack("B");
+    list.pushBack("C");
+    list.pushBack("D");
+
+    EXPECT_EQ(list.popBack(), "D");
+    EXPECT_EQ(list.popBack(), "C");
+    EXPECT_EQ(list.popBack(), "B");
+    EXPECT_EQ(list.popBack(), "A");
+    EXPECT_EQ(list.popBack(), "");
+}
+
+
+// ---------- ДВУСВЯЗНЫЙ СПИСОК ----------
+
+TEST(DListTest, DeleteValueAllCases) {
+    DoublyLinkedList list;
+
+    list.pushBack("A");
+    list.pushBack("B");
+    list.pushBack("C");
+    list.pushBack("D");
+
+    EXPECT_EQ(list.deleteValue("B"), "B");
+    EXPECT_EQ(list.deleteValue("A"), "A");
+    EXPECT_EQ(list.deleteValue("D"), "D");
+    EXPECT_EQ(list.ToString(), "C");
+    EXPECT_EQ(list.deleteValue("Z"), "");
+    EXPECT_EQ(list.deleteValue("C"), "C");
+    EXPECT_EQ(list.ToString(), "");
+    EXPECT_EQ(list.popBack(), "");
+}
+
+TEST(DListTest, DeleteBeforeAfterExtra) {
+    DoublyLinkedList list;
+
+    list.pushBack("A");
+    list.pushBack("B");
+    list.pushBack("C");
+    list.pushBack("D");
+
+    EXPECT_EQ(list.deleteBefore("A"), "");
+    EXPECT_EQ(list.deleteBefore("C"), "B");
+    EXPECT_EQ(list.deleteAfter("C"), "D");
+
+    EXPECT_EQ(list.ToString(), "A C");
+
+    list.insertBefore("A", "Z");
+    list.insertAfter("C", "E");
+
+    EXPECT_EQ(list.ToString(), "Z A C E");
+
+    EXPECT_EQ(list.popBack(), "E");
+    EXPECT_EQ(list.popFront(), "Z");
+
+    list.findInd(1);
+    list.getTail();
+    list.printReverse();
+}
+TEST(DListTest, PopBackSingleElement) {
+    DoublyLinkedList list;
+
+    list.pushBack("Only");
+
+    EXPECT_EQ(list.popBack(), "Only");
+    EXPECT_EQ(list.popBack(), "");
+
+    EXPECT_EQ(list.ToString(), "");
+}
+
+TEST(TreeTest, EmptyTreeToString) {
+    CompleteBinaryTree tree;
+    EXPECT_EQ(tree.ToString(), "");
+    EXPECT_TRUE(tree.isComplete());
+    EXPECT_FALSE(tree.search("X"));
+    tree.print();
+}
+
+TEST(HashTableTest, FullTableInsertSearchRemovePrint) {
+    HashTable ht(3);
+
+    EXPECT_GE(ht.insert(0, "A"), 0);
+    EXPECT_GE(ht.insert(3, "B"), 0);
+    EXPECT_GE(ht.insert(6, "C"), 0);
+
+    EXPECT_EQ(ht.insert(9, "D"), -1);
+
+    EXPECT_EQ(ht.search(0), "A");
+    EXPECT_EQ(ht.search(3), "B");
+    EXPECT_EQ(ht.search(6), "C");
+    EXPECT_EQ(ht.search(99), "");
+
+    EXPECT_NO_THROW(ht.print());
+    EXPECT_FALSE(ht.remove(99));
+}
+
+TEST(HashTableTest, RemoveWithRehashing) {
+    HashTable ht(5);
+
+    ht.insert(1, "A");
+    ht.insert(6, "B");
+    ht.insert(11, "C");
+
+    EXPECT_TRUE(ht.remove(1));
+    EXPECT_EQ(ht.search(1), "");
+    EXPECT_EQ(ht.search(6), "B");
+    EXPECT_EQ(ht.search(11), "C");
+
+    EXPECT_TRUE(ht.remove(6));
+    EXPECT_EQ(ht.search(11), "C");
+
+    EXPECT_TRUE(ht.remove(11));
+    EXPECT_EQ(ht.search(11), "");
+}
 int main(int argc, char **argv) {
     ::testing::InitGoogleTest(&argc, argv);
     return RUN_ALL_TESTS();

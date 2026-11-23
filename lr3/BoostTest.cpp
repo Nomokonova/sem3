@@ -60,6 +60,7 @@ BOOST_AUTO_TEST_CASE(PushFrontAndBack){
     BOOST_TEST(list.findVal("A")==0);
     BOOST_TEST(list.findVal("B")==1);
     BOOST_TEST(list.findVal("C")==2);
+    list.getTail();
 }
 BOOST_AUTO_TEST_CASE(Insert) {
     SinglyLinkedList list;
@@ -105,6 +106,7 @@ BOOST_AUTO_TEST_CASE(Delete){
     list3.pushBack("B"); 
     list3.pushBack("C"); 
     BOOST_TEST(list3.deleteBefore("B") == "A");
+    list3.printReverse();
 }
 
 BOOST_AUTO_TEST_CASE(ToStringCheckSList) {
@@ -136,7 +138,16 @@ BOOST_AUTO_TEST_CASE(EdgeCasesAndErrorsSList) {
     sList.pushFront("A");
     sList.popFront();
 }
+BOOST_AUTO_TEST_CASE(getVal) {
+    SinglyLinkedList list;
 
+    list.pushBack("A");
+    list.pushBack("B");
+    list.pushBack("C");
+
+    BOOST_CHECK_NO_THROW(list.getVal(1));
+    BOOST_CHECK_NO_THROW(list.getVal(2));
+}
 //------------тесты для двусвязного списка 
 BOOST_AUTO_TEST_CASE(InsertBeforeAfter){
     DoublyLinkedList list;
@@ -250,7 +261,19 @@ BOOST_AUTO_TEST_CASE(ToStringCheckQueue){
     q.push("B");
     BOOST_TEST(q.ToString()=="A B");
 }
+BOOST_AUTO_TEST_CASE(PrintNonEmpty) {
+    Queue<std::string> q;
 
+    q.push("A");
+    q.push("B");
+    q.push("C");
+
+    q.print();
+
+    BOOST_TEST(q.Qsize()==3);
+    BOOST_TEST(q.peek()=="A");
+    BOOST_TEST(q.back()=="C");
+}
 BOOST_AUTO_TEST_CASE(EmptyAndErrorsQueue){
     Queue<std::string> q;
     q.pop();                 
@@ -276,7 +299,13 @@ BOOST_AUTO_TEST_CASE(IsComplete) {
     tree.insert("3"); 
     BOOST_TEST(tree.isComplete());
 }
-
+BOOST_AUTO_TEST_CASE(Print) {
+    CompleteBinaryTree tree;
+    tree.insert("1");
+    tree.insert("2");
+    tree.insert("3"); 
+    tree.print();
+}
 BOOST_AUTO_TEST_CASE(ToStringCheckTree) {
     CompleteBinaryTree tree;
     tree.insert("A");
@@ -290,6 +319,15 @@ BOOST_AUTO_TEST_CASE(EmptyAndErrorsTree) {
     tree.print();            
     tree.search("Z");        
     tree.isComplete(); 
+}
+BOOST_AUTO_TEST_CASE(TreeEmptyToString) {
+    CompleteBinaryTree tree;
+
+    BOOST_TEST(tree.ToString() == "");
+    BOOST_TEST(tree.isComplete());
+    BOOST_TEST(tree.search("X") == false);
+
+    tree.print();
 }
 //---------------тесты для хэш таблицы
 BOOST_AUTO_TEST_CASE(InsertSearchHash) {
@@ -318,4 +356,221 @@ BOOST_AUTO_TEST_CASE(EmptyAndErrorsHash){
     HashTable ht(5);
     ht.search(999);          
     ht.print(); 
+}
+
+BOOST_AUTO_TEST_CASE(HashRemoveCollisions) {
+    HashTable ht(5);
+
+    ht.insert(1, "A");
+    ht.insert(6, "B");
+    ht.insert(11, "C");
+
+    BOOST_TEST(ht.remove(1));
+    BOOST_TEST(ht.search(1) == "");
+
+    BOOST_TEST(ht.search(6) == "B");
+    BOOST_TEST(ht.search(11) == "C");
+
+    BOOST_TEST(ht.remove(6));
+    BOOST_TEST(ht.search(11) == "C");
+
+    BOOST_TEST(!ht.remove(99));
+    BOOST_TEST(!ht.remove(1));
+
+    BOOST_TEST(ht.remove(11));
+    BOOST_TEST(ht.ToString() == "");
+
+    BOOST_TEST(ht.insert(16, "D") >= 0);
+    BOOST_TEST(ht.search(16) == "D");
+}
+
+BOOST_AUTO_TEST_CASE(HashRemoveFullTable) {
+    HashTable ht(5);
+
+    ht.insert(4, "A");
+    ht.insert(9, "B");
+    ht.insert(14, "C");
+    ht.insert(19, "D");
+    ht.insert(24, "E");
+
+    BOOST_TEST(ht.remove(4));
+
+    BOOST_TEST(ht.search(9) == "B");
+    BOOST_TEST(ht.search(14) == "C");
+    BOOST_TEST(ht.search(19) == "D");
+    BOOST_TEST(ht.search(24) == "E");
+
+    BOOST_TEST(ht.insert(29, "hello:world") >= 0);
+    BOOST_TEST(ht.search(29) == "hello:world");
+    BOOST_TEST(ht.remove(29));
+}
+
+BOOST_AUTO_TEST_CASE(HashFullTableInsertSearchRemovePrint) {
+    HashTable ht(3);
+
+    BOOST_TEST(ht.insert(0, "A") >= 0);
+    BOOST_TEST(ht.insert(3, "B") >= 0);
+    BOOST_TEST(ht.insert(6, "C") >= 0);
+
+    BOOST_TEST(ht.insert(9, "D") == -1);
+
+    BOOST_TEST(ht.search(0) == "A");
+    BOOST_TEST(ht.search(3) == "B");
+    BOOST_TEST(ht.search(6) == "C");
+
+    BOOST_TEST(ht.search(99) == "");
+
+    ht.print();
+
+    BOOST_TEST(!ht.remove(99));
+}
+
+BOOST_AUTO_TEST_CASE(HashRemoveWithRehashing) {
+    HashTable ht(5);
+
+    ht.insert(1, "A");
+    ht.insert(6, "B");
+    ht.insert(11, "C");
+
+    BOOST_TEST(ht.remove(1));
+    BOOST_TEST(ht.search(1) == "");
+    BOOST_TEST(ht.search(6) == "B");
+    BOOST_TEST(ht.search(11) == "C");
+
+    BOOST_TEST(ht.remove(6));
+    BOOST_TEST(ht.search(11) == "C");
+
+    BOOST_TEST(ht.remove(11));
+    BOOST_TEST(ht.search(11) == "");
+}
+
+
+// ---------- ОДНОСВЯЗНЫЙ СПИСОК ----------
+
+BOOST_AUTO_TEST_CASE(SListDeleteValueAllCases) {
+    SinglyLinkedList empty;
+    BOOST_TEST(empty.deleteValue("X") == "");
+
+    SinglyLinkedList list;
+
+    list.pushBack("A");
+    list.pushBack("B");
+    list.pushBack("C");
+    list.pushBack("D");
+
+    BOOST_TEST(list.deleteValue("A") == "A");
+    BOOST_TEST(list.ToString() == "B C D");
+
+    BOOST_TEST(list.deleteValue("D") == "D");
+    BOOST_TEST(list.ToString() == "B C");
+
+    BOOST_TEST(list.deleteValue("Z") == "");
+
+    BOOST_TEST(list.deleteValue("B") == "B");
+    BOOST_TEST(list.deleteValue("C") == "C");
+
+    BOOST_TEST(list.ToString() == "");
+}
+
+BOOST_AUTO_TEST_CASE(SListDeleteBeforeAfterExtra) {
+    SinglyLinkedList list;
+
+    list.pushBack("A");
+    list.pushBack("B");
+    list.pushBack("C");
+    list.pushBack("D");
+
+    BOOST_TEST(list.deleteBefore("A") == "");
+    BOOST_TEST(list.deleteBefore("B") == "A");
+    BOOST_TEST(list.deleteBefore("D") == "C");
+
+    BOOST_TEST(list.ToString() == "B D");
+
+    BOOST_TEST(list.deleteAfter("B") == "D");
+    BOOST_TEST(list.deleteAfter("B") == "");
+
+    list.insertBefore("B", "A");
+    list.insertAfter("B", "C");
+
+    BOOST_TEST(list.ToString() == "A B C");
+
+    list.getVal(2);
+    list.getVal(10);
+    list.printReverse();
+}
+
+BOOST_AUTO_TEST_CASE(SListPopBackAllCases) {
+    SinglyLinkedList list;
+
+    list.pushBack("A");
+    list.pushBack("B");
+    list.pushBack("C");
+    list.pushBack("D");
+
+    BOOST_TEST(list.popBack() == "D");
+    BOOST_TEST(list.popBack() == "C");
+    BOOST_TEST(list.popBack() == "B");
+    BOOST_TEST(list.popBack() == "A");
+    BOOST_TEST(list.popBack() == "");
+}
+
+
+// ---------- ДВУСВЯЗНЫЙ СПИСОК ----------
+
+BOOST_AUTO_TEST_CASE(DListDeleteValueAllCases) {
+    DoublyLinkedList list;
+
+    list.pushBack("A");
+    list.pushBack("B");
+    list.pushBack("C");
+    list.pushBack("D");
+
+    BOOST_TEST(list.deleteValue("B") == "B");
+    BOOST_TEST(list.deleteValue("A") == "A");
+    BOOST_TEST(list.deleteValue("D") == "D");
+
+    BOOST_TEST(list.ToString() == "C");
+    BOOST_TEST(list.deleteValue("Z") == "");
+
+    BOOST_TEST(list.deleteValue("C") == "C");
+    BOOST_TEST(list.ToString() == "");
+
+    BOOST_TEST(list.popBack() == "");
+}
+
+BOOST_AUTO_TEST_CASE(DListDeleteBeforeAfterExtra) {
+    DoublyLinkedList list;
+
+    list.pushBack("A");
+    list.pushBack("B");
+    list.pushBack("C");
+    list.pushBack("D");
+
+    BOOST_TEST(list.deleteBefore("A") == "");
+    BOOST_TEST(list.deleteBefore("C") == "B");
+    BOOST_TEST(list.deleteAfter("C") == "D");
+
+    BOOST_TEST(list.ToString() == "A C");
+
+    list.insertBefore("A", "Z");
+    list.insertAfter("C", "E");
+
+    BOOST_TEST(list.ToString() == "Z A C E");
+
+    BOOST_TEST(list.popBack() == "E");
+    BOOST_TEST(list.popFront() == "Z");
+
+    list.findInd(1);
+    list.getTail();
+    list.printReverse();
+}
+
+BOOST_AUTO_TEST_CASE(DListPopBackSingleElement) {
+    DoublyLinkedList list;
+    list.pushBack("Only");
+
+    BOOST_TEST(list.popBack() == "Only");
+    BOOST_TEST(list.popBack() == "");
+
+    BOOST_TEST(list.ToString() == "");
 }
