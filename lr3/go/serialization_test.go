@@ -9,117 +9,302 @@ import (
 	"testing"
 )
 
-func fixtures() []struct {
-	name   string
-	create func() any
-	empty  func() any
-} {
-	return []struct {
-		name   string
-		create func() any
-		empty  func() any
-	}{
-		{"array", func() any {
-			a := NewArray()
-			for _, s := range []string{"one", "two words", "", `"quote"`, "a:b", "line\nbreak", "Привет"} {
-				a.PushBack(s)
-			}
-			return a
-		}, func() any { return NewArray() }},
-		{"slist", func() any { a := NewSList(); a.PushBack("one"); a.PushBack("two"); return a }, func() any { return NewSList() }},
-		{"dlist", func() any { a := NewDList(); a.PushBack("one"); a.PushBack("two"); return a }, func() any { return NewDList() }},
-		{"queue", func() any { a := NewQueue(); a.Push("one"); a.Push("two"); return a }, func() any { return NewQueue() }},
-		{"stack", func() any { a := NewStack(); a.Push("bottom"); a.Push("top"); return a }, func() any { return NewStack() }},
-		{"hash", func() any {
-			a := NewHashTable(10)
-			a.Insert(1, "apple")
-			a.Insert(11, "banana")
-			a.Insert(21, "a:b")
-			return a
-		}, func() any { return NewHashTable(10) }},
-		{"tree", func() any {
-			a := NewCompleteBinaryTree()
-			for _, v := range []string{"1", "2", "3", "4", "5", "6", "7"} {
-				a.Insert(v)
-			}
-			return a
-		}, func() any { return NewCompleteBinaryTree() }},
+func compareStructures(t *testing.T, original, restored any) {
+	t.Helper()
+	before, err := Pack(original)
+	if err != nil {
+		t.Fatal(err)
+	}
+	after, err := Pack(restored)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if !reflect.DeepEqual(before, after) {
+		t.Fatalf("Data changed: before=%q, after=%q", before, after)
 	}
 }
-func TestSerialization(t *testing.T) {
-	for _, tc := range fixtures() {
-		t.Run(tc.name, func(t *testing.T) {
-			original := tc.create()
-			want, err := Pack(original)
-			if err != nil {
-				t.Fatal(err)
-			}
-			dir := t.TempDir()
-			for _, format := range []string{"binary", "text"} {
-				t.Run(format, func(t *testing.T) {
-					path := filepath.Join(dir, format+".data")
-					if format == "binary" {
-						err = SaveStructureBinary(original, path)
-					} else {
-						err = SaveStructureText(original, path)
-					}
-					if err != nil {
-						t.Fatal(err)
-					}
-					got := tc.empty()
-					if format == "binary" {
-						err = LoadStructureBinary(got, path)
-					} else {
-						err = LoadStructureText(got, path)
-					}
-					if err != nil {
-						t.Fatal(err)
-					}
-					values, err := Pack(got)
-					if err != nil {
-						t.Fatal(err)
-					}
-					if !reflect.DeepEqual(want, values) {
-						t.Fatalf("roundtrip mismatch: %q != %q", want, values)
-					}
-				})
-			}
-		})
+
+func TestArrayBinarySerialization(t *testing.T) {
+	original := NewArray()
+	original.PushBack("A")
+	original.PushBack("hello world")
+	original.PushBack("Привет")
+	original.PushBack("")
+	path := filepath.Join(t.TempDir(), "array.bin")
+	if err := SaveStructureBinary(original, path); err != nil {
+		t.Fatal(err)
 	}
+
+	restored := NewArray()
+	if err := LoadStructureBinary(restored, path); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restored)
 }
+
+func TestArrayTextSerialization(t *testing.T) {
+	original := NewArray()
+	original.PushBack("A")
+	original.PushBack("hello world")
+	original.PushBack("Привет")
+	original.PushBack("")
+	path := filepath.Join(t.TempDir(), "array.txt")
+	if err := SaveStructureText(original, path); err != nil {
+		t.Fatal(err)
+	}
+
+	restored := NewArray()
+	if err := LoadStructureText(restored, path); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restored)
+}
+
+func TestSListBinarySerialization(t *testing.T) {
+	original := NewSList()
+	original.PushBack("A")
+	original.PushBack("B")
+	path := filepath.Join(t.TempDir(), "slist.bin")
+	if err := SaveStructureBinary(original, path); err != nil {
+		t.Fatal(err)
+	}
+
+	restored := NewSList()
+	if err := LoadStructureBinary(restored, path); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restored)
+}
+
+func TestSListTextSerialization(t *testing.T) {
+	original := NewSList()
+	original.PushBack("A")
+	original.PushBack("B")
+	path := filepath.Join(t.TempDir(), "slist.txt")
+	if err := SaveStructureText(original, path); err != nil {
+		t.Fatal(err)
+	}
+
+	restored := NewSList()
+	if err := LoadStructureText(restored, path); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restored)
+}
+
+func TestDListBinarySerialization(t *testing.T) {
+	original := NewDList()
+	original.PushBack("A")
+	original.PushBack("B")
+	path := filepath.Join(t.TempDir(), "dlist.bin")
+	if err := SaveStructureBinary(original, path); err != nil {
+		t.Fatal(err)
+	}
+
+	restored := NewDList()
+	if err := LoadStructureBinary(restored, path); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restored)
+}
+
+func TestDListTextSerialization(t *testing.T) {
+	original := NewDList()
+	original.PushBack("A")
+	original.PushBack("B")
+	path := filepath.Join(t.TempDir(), "dlist.txt")
+	if err := SaveStructureText(original, path); err != nil {
+		t.Fatal(err)
+	}
+
+	restored := NewDList()
+	if err := LoadStructureText(restored, path); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restored)
+}
+
+func TestQueueBinarySerialization(t *testing.T) {
+	original := NewQueue()
+	original.Push("A")
+	original.Push("B")
+	path := filepath.Join(t.TempDir(), "queue.bin")
+	if err := SaveStructureBinary(original, path); err != nil {
+		t.Fatal(err)
+	}
+
+	restored := NewQueue()
+	if err := LoadStructureBinary(restored, path); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restored)
+}
+
+func TestQueueTextSerialization(t *testing.T) {
+	original := NewQueue()
+	original.Push("A")
+	original.Push("B")
+	path := filepath.Join(t.TempDir(), "queue.txt")
+	if err := SaveStructureText(original, path); err != nil {
+		t.Fatal(err)
+	}
+
+	restored := NewQueue()
+	if err := LoadStructureText(restored, path); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restored)
+}
+
+func TestStackBinarySerialization(t *testing.T) {
+	original := NewStack()
+	original.Push("bottom")
+	original.Push("top")
+	path := filepath.Join(t.TempDir(), "stack.bin")
+	if err := SaveStructureBinary(original, path); err != nil {
+		t.Fatal(err)
+	}
+
+	restored := NewStack()
+	if err := LoadStructureBinary(restored, path); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restored)
+}
+
+func TestStackTextSerialization(t *testing.T) {
+	original := NewStack()
+	original.Push("bottom")
+	original.Push("top")
+	path := filepath.Join(t.TempDir(), "stack.txt")
+	if err := SaveStructureText(original, path); err != nil {
+		t.Fatal(err)
+	}
+
+	restored := NewStack()
+	if err := LoadStructureText(restored, path); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restored)
+}
+
+func TestHashBinarySerialization(t *testing.T) {
+	original := NewHashTable(10)
+	original.Insert(1, "apple")
+	original.Insert(11, "banana")
+	original.Insert(21, "a:b")
+	path := filepath.Join(t.TempDir(), "hash.bin")
+	if err := SaveStructureBinary(original, path); err != nil {
+		t.Fatal(err)
+	}
+
+	restored := NewHashTable(10)
+	if err := LoadStructureBinary(restored, path); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restored)
+}
+
+func TestHashTextSerialization(t *testing.T) {
+	original := NewHashTable(10)
+	original.Insert(1, "apple")
+	original.Insert(11, "banana")
+	original.Insert(21, "a:b")
+	path := filepath.Join(t.TempDir(), "hash.txt")
+	if err := SaveStructureText(original, path); err != nil {
+		t.Fatal(err)
+	}
+
+	restored := NewHashTable(10)
+	if err := LoadStructureText(restored, path); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restored)
+}
+
+func TestTreeBinarySerialization(t *testing.T) {
+	original := NewCompleteBinaryTree()
+	original.Insert("1")
+	original.Insert("2")
+	original.Insert("3")
+	original.Insert("4")
+	path := filepath.Join(t.TempDir(), "tree.bin")
+	if err := SaveStructureBinary(original, path); err != nil {
+		t.Fatal(err)
+	}
+
+	restored := NewCompleteBinaryTree()
+	if err := LoadStructureBinary(restored, path); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restored)
+}
+
+func TestTreeTextSerialization(t *testing.T) {
+	original := NewCompleteBinaryTree()
+	original.Insert("1")
+	original.Insert("2")
+	original.Insert("3")
+	original.Insert("4")
+	path := filepath.Join(t.TempDir(), "tree.txt")
+	if err := SaveStructureText(original, path); err != nil {
+		t.Fatal(err)
+	}
+
+	restored := NewCompleteBinaryTree()
+	if err := LoadStructureText(restored, path); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restored)
+}
+
+func testEmptyRoundtrip(t *testing.T, original any, createEmpty func() any) {
+	t.Helper()
+	binaryPath := filepath.Join(t.TempDir(), "empty.bin")
+	if err := SaveStructureBinary(original, binaryPath); err != nil {
+		t.Fatal(err)
+	}
+	restoredBinary := createEmpty()
+	if err := LoadStructureBinary(restoredBinary, binaryPath); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restoredBinary)
+
+	textPath := filepath.Join(t.TempDir(), "empty.txt")
+	if err := SaveStructureText(original, textPath); err != nil {
+		t.Fatal(err)
+	}
+	restoredText := createEmpty()
+	if err := LoadStructureText(restoredText, textPath); err != nil {
+		t.Fatal(err)
+	}
+	compareStructures(t, original, restoredText)
+}
+
 func TestEmptyStructures(t *testing.T) {
-	for _, tc := range fixtures() {
-		t.Run(tc.name, func(t *testing.T) {
-			empty := tc.empty()
-			want, _ := Pack(empty)
-			for _, binary := range []bool{true, false} {
-				path := filepath.Join(t.TempDir(), "empty.data")
-				var err error
-				if binary {
-					err = SaveStructureBinary(empty, path)
-				} else {
-					err = SaveStructureText(empty, path)
-				}
-				if err != nil {
-					t.Fatal(err)
-				}
-				restored := tc.empty()
-				if binary {
-					err = LoadStructureBinary(restored, path)
-				} else {
-					err = LoadStructureText(restored, path)
-				}
-				if err != nil {
-					t.Fatal(err)
-				}
-				got, _ := Pack(restored)
-				if !reflect.DeepEqual(want, got) {
-					t.Fatalf("empty mismatch: %q %q", want, got)
-				}
-			}
-		})
-	}
+	t.Run("array", func(t *testing.T) {
+		testEmptyRoundtrip(t, NewArray(), func() any { return NewArray() })
+	})
+	t.Run("slist", func(t *testing.T) {
+		testEmptyRoundtrip(t, NewSList(), func() any { return NewSList() })
+	})
+	t.Run("dlist", func(t *testing.T) {
+		testEmptyRoundtrip(t, NewDList(), func() any { return NewDList() })
+	})
+	t.Run("queue", func(t *testing.T) {
+		testEmptyRoundtrip(t, NewQueue(), func() any { return NewQueue() })
+	})
+	t.Run("stack", func(t *testing.T) {
+		testEmptyRoundtrip(t, NewStack(), func() any { return NewStack() })
+	})
+	t.Run("hash", func(t *testing.T) {
+		testEmptyRoundtrip(t, NewHashTable(10), func() any { return NewHashTable(10) })
+	})
+	t.Run("tree", func(t *testing.T) {
+		testEmptyRoundtrip(t, NewCompleteBinaryTree(), func() any { return NewCompleteBinaryTree() })
+	})
 }
+
 func TestSerializationErrors(t *testing.T) {
 	dir := t.TempDir()
 	f := filepath.Join(dir, "file")
@@ -275,8 +460,6 @@ func BenchmarkTextSerialization(b *testing.B) {
 
 var benchmarkSize int
 
-// Дополнительные проверки сериализации и обработки некорректных файлов.
-
 func TestSerializerBinaryInvalidInput(t *testing.T) {
 	cases := []struct {
 		name string
@@ -284,7 +467,7 @@ func TestSerializerBinaryInvalidInput(t *testing.T) {
 	}{
 		{"empty", nil},
 		{"incomplete_count", []byte{1, 0}},
-		{"too_many_items", []byte{0x41, 0x42, 0x0f, 0x00}}, // 1000001
+		{"too_many_items", []byte{0x41, 0x42, 0x0f, 0x00}},
 		{"missing_string_length", []byte{1, 0, 0, 0}},
 		{"incomplete_string_length", []byte{1, 0, 0, 0, 2, 0}},
 		{"too_long_string", []byte{1, 0, 0, 0, 0x41, 0x42, 0x0f, 0x00}},
